@@ -10,6 +10,7 @@ const PORT = process.env.PORT || 3000;
 const app = express();
 
 //connect database
+mongoose.Promise = global.Promise;
 mongoose.connect(`mongodb://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@${process.env.MONGO_PATH}`,{
     useCreateIndex : true,
     useNewUrlParser: true,

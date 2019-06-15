@@ -1,22 +1,12 @@
 const { Router } = require('express');
-
-const User = require('../models/user.model');
+const { getPosts } = require('../controllers/post.controller');
+const { registration, getProfile, loggedIn } = require('../controllers/auth.controller');
+const { verifyToken } = require('../middlewares/auth.middleware');
 
 const route = Router();
 
-route.post('/auth/register', async (req , res)=>{
-    const l_user = new User(req.body);
-    try {
-        
-        let user = await l_user.generateToken();
-
-        await user.save();
-
-        res.status(201).send(user);
-    } catch (error) {
-        res.status(400).send(error);
-    }
-});
-
-
+route.get('/posts', getPosts);
+route.post('/auth/register', registration);
+route.get('/auth/me',verifyToken, getProfile);
+route.post('/auth/login', loggedIn)
 module.exports = route;

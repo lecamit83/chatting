@@ -41,16 +41,19 @@ userSchema.methods.toJSON = function(){
     const objectUser = user.toObject();
 
     delete objectUser.password;
-    delete objectUser.tokens;
-
+    
     return objectUser;
 }
 
 userSchema.methods.generateToken = async function(){
+
     const user = this;
     const token = await jwt.sign({_id : user._id.toString()} , process.env.JWT_SECRET, {expiresIn : 3600});
     user.tokens = user.tokens.concat({ token });
-    return user;
+    
+    await user.save();
+
+    return token;
 }
 
 userSchema.pre('save', async function(next){
@@ -60,6 +63,18 @@ userSchema.pre('save', async function(next){
     }
     next();
 });
+
+userSchema.statics.findByCredentials = async (email, password) => {
+    const user = await User.findOne({ email });
+    if( !user ){
+        throw new Error("Unable to Login");
+    }
+    const isMatch = await bcrypt.compare(password, user.password);
+    if(!isMatch){
+        throw new Error('Unable to Login');
+    }
+    return user;
+}
 
 const User = mongoose.model('User', userSchema);
 module.exports = User;
