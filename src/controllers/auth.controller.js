@@ -28,5 +28,18 @@ module.exports = {
         } catch (error) {
             res.status(400).send(error);
         }
+    },
+    async loggedOut(req, res) {
+        try {
+            let user = req.user;
+            user.token = [];
+            await user.save();
+
+            res.status(200).send({
+                message : 'Log out success!'
+            });
+        } catch(error) {
+            res.status(500).send(error);
+        }
     }
 }
