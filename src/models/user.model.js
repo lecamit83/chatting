@@ -10,26 +10,20 @@ const userSchema = new Schema({
 
     name : {
         type: String,
-        required : true,
         trim : true,
     },
     email : {
         type : String,
         trim : true,
-        require : true,
-        unique : true,
         lowercase : true,
 
     },
     password : {
         type: String,
-        required : true,
-        minlength: 7,
     },
     tokens : [{
         token : {
             type : String,
-            require : true
         }
     }]
 },{ 
