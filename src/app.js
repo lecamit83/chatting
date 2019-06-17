@@ -1,6 +1,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+const morgan = require('morgan');
+const { allowCrossDomain } = require('./middlewares/cors.middleware');
 require('dotenv/config');
 
 
@@ -20,8 +22,11 @@ mongoose.connect(`mongodb://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@
 });
 
 //config middlewares
+app.use(morgan('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended : false}));
+app.use(bodyParser.urlencoded({extended : true}));
+
+app.use(allowCrossDomain);
 //mountRouters
 
 app.use('/', userRouter);
