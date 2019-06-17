@@ -32,7 +32,7 @@ module.exports = {
     async loggedOut(req, res) {
         try {
             let user = req.user;
-            user.token = [];
+            user.tokens = [];
             await user.save();
 
             res.status(200).send({
