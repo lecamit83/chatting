@@ -6,17 +6,30 @@ module.exports = {
             
             let token = await user.generateToken();
     
-            res.status(201).send({user, token});
+            res.send({
+                status : 201,
+                user, 
+                token
+            });
         } catch (error) {
-            res.status(400).send(error);
+            res.send({
+                error,
+                status : 400
+            });
         }
     },
 
     async getProfile(req, res) {
         try {
-            res.status(200).send(req.user);
+            res.send({
+                status : 200,
+                user : req.user
+            });
         } catch (error) {
-            res.status(500).send();
+            res.send({
+                status : 404,
+                error
+            });
         }
     },
     async loggedIn(req, res){
@@ -25,9 +38,16 @@ module.exports = {
             const user = req.user;
 
             const token = await user.generateToken();
-            res.status(200).send({user, token});
+            res.send({
+                status : 200,
+                user, 
+                token
+            });
         } catch (error) {
-            res.status(400).send(error);
+            res.send({
+                status: 400,
+                error
+            });
         }
     },
     async loggedOut(req, res) {
@@ -36,11 +56,15 @@ module.exports = {
             user.tokens = [];
             await user.save();
 
-            res.status(200).send({
-                message : 'Log out success!'
+            res.send({
+                status : 200,
+                message : 'Log out success!',
             });
         } catch(error) {
-            res.status(500).send(error);
+            res.send({
+                status : 500,
+                error
+            });
         }
     }
 }
