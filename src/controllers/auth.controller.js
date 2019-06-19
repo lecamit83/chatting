@@ -21,8 +21,9 @@ module.exports = {
     },
     async loggedIn(req, res){
         try {
-            const {email , password} = req.body;
-            const user = await User.findByCredentials(email, password);
+            
+            const user = req.user;
+
             const token = await user.generateToken();
             res.status(200).send({user, token});
         } catch (error) {

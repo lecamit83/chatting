@@ -12,8 +12,7 @@ module.exports = {
 
         if(!validator.isLength(password, {min : 6 , max : 30})){
             errors.password = "Password length must inside min=6 and max=30";
-        }
-        if(validator.contains(password, ' ')){
+        } else if(validator.contains(password, ' ')){
            errors.password = "Password  cannot contain space character"; 
         }
         return {
