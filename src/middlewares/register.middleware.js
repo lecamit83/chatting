@@ -11,13 +11,19 @@ module.exports = {
             const { errors , isValid } = validateRegister(data);
            // console.log(errors, isValid );
             if(!isValid){
-                return res.status(404).send(errors);
+                return res.send({
+                    status : 404,
+                    errors
+                });
             }
             const user = await User.findOne({ email : data.email });
 
             if(user) {
                 errors.email = "Email is exist";
-                return res.status(404).send(errors);
+                return res.send({
+                    status : 404,
+                    errors
+                });
             }
            // console.log(errors, isValid);
             
