@@ -53,7 +53,19 @@ module.exports = {
 		});
 	},
 	getConversations(req, res) {
-		Conversation.find({participants : req.user._id}).select('_id').exec(function(error, conversations){
+		Conversation.find({participants : req.user._id})
+		.select('_id')
+		.sort('-createdAt')
+		.populate({
+			path : 'participants',
+			select : 'name',
+			match : {
+				_id : {
+					$ne : req.user._id,
+				}
+			}
+		})
+		.exec(function(error, conversations){
 			if(error) {
 				return res.send({status : 400 , error});
 			}
@@ -64,7 +76,7 @@ module.exports = {
 	getConversation(req, res){
 		Message.find({conversationId : req.params.conversationId})
 			.select('createdAt body author')
-			.sort('-createdAt')
+			.sort('+createdAt')
 			.populate({
 				path: 'author',
 				select : 'name',

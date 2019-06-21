@@ -6,6 +6,6 @@ const route = Router();
 
 route.post('/new/:recipient', verifyAuth, createConversation);
 route.post('/:conversationId' , verifyAuth , replyMessage);
-route.get('/', verifyAuth , getConversations)
-route.get('/:conversationId' , verifyAuth, getConversation)
+route.get('/', verifyAuth , getConversations);
+route.get('/:conversationId' , verifyAuth, getConversation);
 module.exports = route;
