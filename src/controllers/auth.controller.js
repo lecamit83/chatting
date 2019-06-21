@@ -54,6 +54,7 @@ module.exports = {
         try {
             let user = req.user;
             user.tokens = [];
+            user.isActived = false;
             await user.save();
 
             res.send({

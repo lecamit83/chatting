@@ -8,6 +8,8 @@ require('dotenv/config');
 
 const userRouter = require('./routers/user.router');
 
+const chatRouter = require('./routers/chat.router');
+
 const PORT = process.env.PORT || 3000;
 const app = express();
 
@@ -30,7 +32,7 @@ app.use(allowCrossDomain);
 //mountRouters
 
 app.use('/', userRouter);
-
+app.use('/chat', chatRouter);
 app.listen(PORT, (error)=>{
     if(error) throw error;
     console.log(`Server is running on PORT=${PORT}`);
